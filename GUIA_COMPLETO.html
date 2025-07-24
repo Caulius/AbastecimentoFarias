@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completo - Sistema de Gestão de Abastecimento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin: -20px -20px 40px -20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-title {
+            display: inline-block;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            vertical-align: top;
+            margin-top: 5px;
+        }
+
+        .step-content {
+            margin-left: 55px;
+        }
+
+        .substep {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .substep h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #4a5568;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "💻 Terminal/Código";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: #2d3748;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #a0aec0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .success::before {
+            content: "✅ ";
+            font-weight: bold;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .info::before {
+            content: "ℹ️ ";
+            font-weight: bold;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .toc {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .toc h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin: 10px 0;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            color: #667eea;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-bottom: -20px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .step-content {
+                margin-left: 0;
+            }
+            
+            .step-number {
+                display: block;
+                margin: 0 auto 15px auto;
+            }
+            
+            .step-title {
+                display: block;
+                text-align: center;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚛 Sistema de Gestão de Abastecimento</h1>
+            <p>Guia Completo de Configuração e Deploy</p>
+            <p><strong>GitHub + Firebase + Netlify + VS Code</strong></p>
+        </div>
+
+        <div class="toc">
+            <h2>📋 Índice</h2>
+            <ul>
+                <li><a href="#step1">1. Pré-requisitos e Downloads</a></li>
+                <li><a href="#step2">2. Configuração do GitHub</a></li>
+                <li><a href="#step3">3. Download e Configuração do Projeto</a></li>
+                <li><a href="#step4">4. Configuração do Firebase</a></li>
+                <li><a href="#step5">5. Configuração do VS Code</a></li>
+                <li><a href="#step6">6. Upload para GitHub</a></li>
+                <li><a href="#step7">7. Deploy no Netlify</a></li>
+                <li><a href="#step8">8. Testes e Verificação</a></li>
+                <li><a href="#step9">9. Manutenção e Atualizações</a></li>
+            </ul>
+        </div>
+
+        <div class="step" id="step1">
+            <span class="step-number">1</span>
+            <span class="step-title">Pré-requisitos e Downloads</span>
+            <div class="step-content">
+                <p>Antes de começar, você precisa instalar algumas ferramentas essenciais:</p>
+                
+                <div class="substep">
+                    <h4>1.1 Node.js (Obrigatório)</h4>
+                    <p>O Node.js é necessário para executar o projeto localmente.</p>
+                    <ul>
+                        <li>Acesse: <a href="https://nodejs.org" target="_blank" class="btn">nodejs.org</a></li>
+                        <li>Baixe a versão <strong>LTS (Long Term Support)</strong></li>
+                        <li>Execute o instalador e siga as instruções</li>
+                        <li>Reinicie o computador após a instalação</li>
+                    </ul>
+                    
+                    <div class="info">
+                        Para verificar se foi instalado corretamente, abra o terminal/prompt e digite:
+                    </div>
+                    <div class="code-block">
+node --version
+npm --version
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>1.2 Git (Obrigatório)</h4>
+                    <p>Necessário para controle de versão e integração com GitHub.</p>
+                    <ul>
+                        <li>Acesse: <a href="https://git-scm.com" target="_blank" class="btn">git-scm.com</a></li>
+                        <li>Baixe e instale a versão para seu sistema operacional</li>
+                        <li>Durante a instalação, mantenha as opções padrão</li>
+                    </ul>
+                </div>
+
+                <div class="substep">
+                    <h4>1.3 Visual Studio Code (Recomendado)</h4>
+                    <p>Editor de código profissional e gratuito.</p>
+                    <ul>
+                        <li>Acesse: <a href="https://code.visualstudio.com" target="_blank" class="btn">code.visualstudio.com</a></li>
+                        <li>Baixe e instale</li>
+                        <li>Instale as extensões recomendadas (explicado no passo 5)</li>
+                    </ul>
+                </div>
+
+                <div class="substep">
+                    <h4>1.4 Contas Necessárias</h4>
+                    <p>Crie contas gratuitas nos seguintes serviços:</p>
+                    <ul>
+                        <li><strong>GitHub:</strong> <a href="https://github.com" target="_blank" class="btn">github.com</a></li>
+                        <li><strong>Firebase:</strong> <a href="https://console.firebase.google.com" target="_blank" class="btn">console.firebase.google.com</a></li>
+                        <li><strong>Netlify:</strong> <a href="https://netlify.com" target="_blank" class="btn">netlify.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step2">
+            <span class="step-number">2</span>
+            <span class="step-title">Configuração do GitHub</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>2.1 Criar Repositório no GitHub</h4>
+                    <ol>
+                        <li>Acesse <a href="https://github.com" target="_blank">github.com</a> e faça login</li>
+                        <li>Clique no botão <strong>"New"</strong> ou <strong>"+"</strong> no canto superior direito</li>
+                        <li>Selecione <strong>"New repository"</strong></li>
+                        <li>Preencha os dados:</li>
+                        <ul>
+                            <li><strong>Repository name:</strong> <span class="highlight">sistema-gestao-abastecimento</span></li>
+                            <li><strong>Description:</strong> Sistema completo para gestão de abastecimento de veículos</li>
+                            <li>Marque como <strong>Public</strong> (ou Private se preferir)</li>
+                            <li>Marque <strong>"Add a README file"</strong></li>
+                            <li>Selecione <strong>".gitignore template: Node"</strong></li>
+                            <li>Selecione <strong>"License: MIT License"</strong></li>
+                        </ul>
+                        <li>Clique em <strong>"Create repository"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>2.2 Configurar Git Localmente</h4>
+                    <p>Configure suas credenciais do Git (faça isso apenas uma vez):</p>
+                    <div class="code-block">
+git config --global user.name "Seu Nome"
+git config --global user.email "seu.email@gmail.com"
+                    </div>
+                    <div class="warning">
+                        Substitua "Seu Nome" e "seu.email@gmail.com" pelos seus dados reais do GitHub.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step3">
+            <span class="step-number">3</span>
+            <span class="step-title">Download e Configuração do Projeto</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>3.1 Clonar o Repositório</h4>
+                    <p>Abra o terminal/prompt de comando e execute:</p>
+                    <div class="code-block">
+# Navegue até a pasta onde quer salvar o projeto (ex: Desktop)
+cd Desktop
+
+# Clone o repositório (substitua SEU_USUARIO pelo seu username do GitHub)
+git clone https://github.com/SEU_USUARIO/sistema-gestao-abastecimento.git
+
+# Entre na pasta do projeto
+cd sistema-gestao-abastecimento
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>3.2 Baixar os Arquivos do Sistema</h4>
+                    <p>Agora você precisa adicionar os arquivos do sistema ao repositório. Você pode:</p>
+                    
+                    <div class="info">
+                        <strong>Opção 1:</strong> Copiar os arquivos manualmente do projeto atual para a pasta clonada.
+                    </div>
+                    
+                    <div class="info">
+                        <strong>Opção 2:</strong> Baixar o ZIP do projeto e extrair na pasta clonada.
+                    </div>
+
+                    <p>Após copiar os arquivos, sua estrutura deve ficar assim:</p>
+                    <div class="file-structure">
+sistema-gestao-abastecimento/
+├── public/
+├── src/
+│   ├── components/
+│   ├── config/
+│   ├── hooks/
+│   ├── services/
+│   ├── types/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>3.3 Instalar Dependências</h4>
+                    <p>No terminal, dentro da pasta do projeto, execute:</p>
+                    <div class="code-block">
+# Instalar todas as dependências
+npm install
+
+# Aguarde a instalação (pode demorar alguns minutos)
+                    </div>
+                    
+                    <div class="success">
+                        Se tudo correu bem, você verá uma pasta <strong>node_modules</strong> criada no projeto.
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>3.4 Testar o Projeto Localmente</h4>
+                    <p>Execute o projeto para verificar se está funcionando:</p>
+                    <div class="code-block">
+npm run dev
+                    </div>
+                    <p>O sistema deve abrir automaticamente no navegador em <strong>http://localhost:5173</strong></p>
+                    
+                    <div class="warning">
+                        Neste momento, o sistema ainda não terá conexão com o Firebase, então algumas funcionalidades podem não funcionar completamente.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step4">
+            <span class="step-number">4</span>
+            <span class="step-title">Configuração do Firebase</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>4.1 Criar Projeto no Firebase</h4>
+                    <ol>
+                        <li>Acesse <a href="https://console.firebase.google.com" target="_blank" class="btn">Firebase Console</a></li>
+                        <li>Clique em <strong>"Criar um projeto"</strong></li>
+                        <li>Nome do projeto: <span class="highlight">Sistema Gestão Abastecimento</span></li>
+                        <li>Aceite os termos e clique <strong>"Continuar"</strong></li>
+                        <li>Desabilite o Google Analytics (não é necessário) e clique <strong>"Criar projeto"</strong></li>
+                        <li>Aguarde a criação e clique <strong>"Continuar"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>4.2 Configurar Firestore Database</h4>
+                    <ol>
+                        <li>No painel do Firebase, clique em <strong>"Firestore Database"</strong></li>
+                        <li>Clique em <strong>"Criar banco de dados"</strong></li>
+                        <li>Selecione <strong>"Iniciar no modo de teste"</strong></li>
+                        <li>Escolha a localização <strong>"southamerica-east1 (São Paulo)"</strong></li>
+                        <li>Clique <strong>"Concluído"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>4.3 Configurar Regras de Segurança</h4>
+                    <p>No Firestore, vá para a aba <strong>"Regras"</strong> e substitua o conteúdo por:</p>
+                    <div class="code-block">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permitir leitura e escrita para todas as coleções
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+                    </div>
+                    <p>Clique em <strong>"Publicar"</strong></p>
+                    
+                    <div class="warning">
+                        Estas regras são para desenvolvimento. Em produção, você deve implementar regras de segurança mais restritivas.
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>4.4 Obter Credenciais do Firebase</h4>
+                    <ol>
+                        <li>No painel do Firebase, clique no ícone de <strong>engrenagem ⚙️</strong> e selecione <strong>"Configurações do projeto"</strong></li>
+                        <li>Role para baixo até <strong>"Seus aplicativos"</strong></li>
+                        <li>Clique no ícone <strong>"Web" (&lt;/&gt;)</strong></li>
+                        <li>Nome do app: <span class="highlight">Sistema Gestão Web</span></li>
+                        <li>Marque <strong>"Configurar também o Firebase Hosting"</strong></li>
+                        <li>Clique <strong>"Registrar app"</strong></li>
+                        <li>Copie as credenciais que aparecem (algo como):</li>
+                    </ol>
+                    
+                    <div class="code-block">
+const firebaseConfig = {
+  apiKey: "AIzaSyABC123...",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-projeto-id",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123..."
+};
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>4.5 Configurar Credenciais no Projeto</h4>
+                    <p>Abra o arquivo <strong>src/config/firebase.ts</strong> e substitua as credenciais:</p>
+                    <div class="code-block">
+// Substitua as credenciais existentes pelas suas
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY_AQUI",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-project-id",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "seu-app-id"
+};
+                    </div>
+                    
+                    <div class="success">
+                        Salve o arquivo. Agora o sistema está conectado ao Firebase!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step5">
+            <span class="step-number">5</span>
+            <span class="step-title">Configuração do VS Code</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>5.1 Abrir Projeto no VS Code</h4>
+                    <ol>
+                        <li>Abra o VS Code</li>
+                        <li>Clique em <strong>"File" → "Open Folder"</strong></li>
+                        <li>Selecione a pasta <strong>sistema-gestao-abastecimento</strong></li>
+                        <li>Clique <strong>"Selecionar pasta"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>5.2 Instalar Extensões Recomendadas</h4>
+                    <p>Clique no ícone de extensões (quadrado com peças de quebra-cabeça) e instale:</p>
+                    <ul>
+                        <li><strong>ES7+ React/Redux/React-Native snippets</strong></li>
+                        <li><strong>TypeScript Importer</strong></li>
+                        <li><strong>Tailwind CSS IntelliSense</strong></li>
+                        <li><strong>Auto Rename Tag</strong></li>
+                        <li><strong>Bracket Pair Colorizer</strong></li>
+                        <li><strong>GitLens</strong></li>
+                        <li><strong>Prettier - Code formatter</strong></li>
+                    </ul>
+                </div>
+
+                <div class="substep">
+                    <h4>5.3 Configurar Terminal Integrado</h4>
+                    <ol>
+                        <li>No VS Code, pressione <strong>Ctrl + `</strong> (ou Cmd + ` no Mac)</li>
+                        <li>Isso abrirá o terminal integrado</li>
+                        <li>Certifique-se de que está na pasta do projeto</li>
+                        <li>Teste executando: <code>npm run dev</code></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>5.4 Configurar Git no VS Code</h4>
+                    <p>O VS Code tem integração nativa com Git. Você verá:</p>
+                    <ul>
+                        <li><strong>Ícone de controle de versão</strong> na barra lateral esquerda</li>
+                        <li><strong>Indicadores de mudanças</strong> nos arquivos modificados</li>
+                        <li><strong>Terminal integrado</strong> para comandos Git</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step6">
+            <span class="step-number">6</span>
+            <span class="step-title">Upload para GitHub</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>6.1 Preparar Arquivos para Commit</h4>
+                    <p>No terminal do VS Code, execute os comandos:</p>
+                    <div class="code-block">
+# Verificar status dos arquivos
+git status
+
+# Adicionar todos os arquivos
+git add .
+
+# Verificar novamente
+git status
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>6.2 Fazer o Primeiro Commit</h4>
+                    <div class="code-block">
+# Fazer commit com mensagem descritiva
+git commit -m "Adicionar sistema completo de gestão de abastecimento
+
+- Interface completa com React + TypeScript
+- Integração com Firebase Firestore
+- Sistema de relatórios em PDF/Excel
+- Design responsivo com Tailwind CSS
+- Funcionalidades: Dashboard, Cadastros, Consultas, Relatórios"
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>6.3 Enviar para GitHub</h4>
+                    <div class="code-block">
+# Enviar para o repositório remoto
+git push origin main
+                    </div>
+                    
+                    <div class="success">
+                        Agora você pode acessar seu repositório no GitHub e ver todos os arquivos lá!
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>6.4 Verificar no GitHub</h4>
+                    <ol>
+                        <li>Acesse seu repositório no GitHub</li>
+                        <li>Você deve ver todos os arquivos do projeto</li>
+                        <li>O README.md deve estar atualizado</li>
+                        <li>Verifique se o commit aparece no histórico</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step7">
+            <span class="step-number">7</span>
+            <span class="step-title">Deploy no Netlify</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>7.1 Conectar GitHub ao Netlify</h4>
+                    <ol>
+                        <li>Acesse <a href="https://netlify.com" target="_blank" class="btn">netlify.com</a></li>
+                        <li>Clique em <strong>"Sign up"</strong> e escolha <strong>"GitHub"</strong></li>
+                        <li>Autorize o Netlify a acessar sua conta GitHub</li>
+                        <li>Após o login, clique em <strong>"New site from Git"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>7.2 Configurar Deploy</h4>
+                    <ol>
+                        <li>Escolha <strong>"GitHub"</strong> como provedor</li>
+                        <li>Selecione o repositório <strong>sistema-gestao-abastecimento</strong></li>
+                        <li>Configure as opções de build:</li>
+                        <ul>
+                            <li><strong>Branch to deploy:</strong> main</li>
+                            <li><strong>Build command:</strong> <span class="highlight">npm run build</span></li>
+                            <li><strong>Publish directory:</strong> <span class="highlight">dist</span></li>
+                        </ul>
+                        <li>Clique em <strong>"Deploy site"</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>7.3 Aguardar Deploy</h4>
+                    <p>O Netlify irá:</p>
+                    <ul>
+                        <li>Baixar seu código do GitHub</li>
+                        <li>Instalar as dependências</li>
+                        <li>Executar o build do projeto</li>
+                        <li>Publicar o site</li>
+                    </ul>
+                    
+                    <div class="info">
+                        Este processo pode levar de 2 a 5 minutos. Você pode acompanhar o progresso na tela.
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>7.4 Configurar Domínio Personalizado (Opcional)</h4>
+                    <ol>
+                        <li>Após o deploy, clique em <strong>"Domain settings"</strong></li>
+                        <li>Clique em <strong>"Options" → "Edit site name"</strong></li>
+                        <li>Escolha um nome como: <span class="highlight">gestao-abastecimento-carlos</span></li>
+                        <li>Seu site ficará disponível em: <strong>https://gestao-abastecimento-carlos.netlify.app</strong></li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>7.5 Configurar Deploy Automático</h4>
+                    <p>O Netlify já está configurado para fazer deploy automático sempre que você fizer push para o GitHub!</p>
+                    
+                    <div class="success">
+                        Isso significa que toda vez que você atualizar o código no GitHub, o site será automaticamente atualizado.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step8">
+            <span class="step-number">8</span>
+            <span class="step-title">Testes e Verificação</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>8.1 Testar o Site Online</h4>
+                    <ol>
+                        <li>Acesse seu site no Netlify</li>
+                        <li>Teste todas as funcionalidades:</li>
+                        <ul>
+                            <li>Dashboard carrega corretamente</li>
+                            <li>Cadastro de responsáveis funciona</li>
+                            <li>Cadastro de veículos funciona</li>
+                            <li>Registro de abastecimento funciona</li>
+                            <li>Consulta de abastecimentos funciona</li>
+                            <li>Geração de relatórios funciona</li>
+                        </ul>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>8.2 Testar Responsividade</h4>
+                    <p>Teste o site em diferentes dispositivos:</p>
+                    <ul>
+                        <li><strong>Desktop:</strong> Navegador normal</li>
+                        <li><strong>Tablet:</strong> Redimensione a janela ou use ferramentas do desenvolvedor</li>
+                        <li><strong>Mobile:</strong> Acesse pelo celular</li>
+                    </ul>
+                </div>
+
+                <div class="substep">
+                    <h4>8.3 Verificar Conexão com Firebase</h4>
+                    <ol>
+                        <li>Cadastre um responsável de teste</li>
+                        <li>Verifique se aparece no Firebase Console</li>
+                        <li>Cadastre um veículo de teste</li>
+                        <li>Registre um abastecimento de teste</li>
+                        <li>Gere um relatório de teste</li>
+                    </ol>
+                    
+                    <div class="success">
+                        Se tudo funcionar, seu sistema está 100% operacional!
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>8.4 Verificar Performance</h4>
+                    <p>Use as ferramentas do navegador para verificar:</p>
+                    <ul>
+                        <li>Tempo de carregamento</li>
+                        <li>Responsividade da interface</li>
+                        <li>Funcionamento offline (dados ficam salvos)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step9">
+            <span class="step-number">9</span>
+            <span class="step-title">Manutenção e Atualizações</span>
+            <div class="step-content">
+                <div class="substep">
+                    <h4>9.1 Fluxo de Atualizações</h4>
+                    <p>Para fazer alterações no sistema:</p>
+                    <div class="code-block">
+# 1. Fazer alterações no código (VS Code)
+# 2. Testar localmente
+npm run dev
+
+# 3. Adicionar alterações ao Git
+git add .
+
+# 4. Fazer commit
+git commit -m "Descrição da alteração"
+
+# 5. Enviar para GitHub
+git push origin main
+
+# 6. Netlify fará deploy automático!
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>9.2 Backup dos Dados</h4>
+                    <p>Para fazer backup dos dados do Firebase:</p>
+                    <ol>
+                        <li>Acesse o Firebase Console</li>
+                        <li>Vá para Firestore Database</li>
+                        <li>Use a funcionalidade de exportação</li>
+                        <li>Ou implemente uma função de exportação no próprio sistema</li>
+                    </ol>
+                </div>
+
+                <div class="substep">
+                    <h4>9.3 Monitoramento</h4>
+                    <p>Monitore regularmente:</p>
+                    <ul>
+                        <li><strong>Netlify:</strong> Status dos deploys</li>
+                        <li><strong>Firebase:</strong> Uso do banco de dados</li>
+                        <li><strong>GitHub:</strong> Histórico de commits</li>
+                    </ul>
+                </div>
+
+                <div class="substep">
+                    <h4>9.4 Solução de Problemas Comuns</h4>
+                    
+                    <div class="warning">
+                        <strong>Problema:</strong> Site não carrega após deploy<br>
+                        <strong>Solução:</strong> Verifique os logs no Netlify e as credenciais do Firebase
+                    </div>
+                    
+                    <div class="warning">
+                        <strong>Problema:</strong> Dados não salvam<br>
+                        <strong>Solução:</strong> Verifique as regras do Firestore e a conexão com internet
+                    </div>
+                    
+                    <div class="warning">
+                        <strong>Problema:</strong> Deploy falha<br>
+                        <strong>Solução:</strong> Verifique se o comando de build está correto e se não há erros no código
+                    </div>
+                </div>
+
+                <div class="substep">
+                    <h4>9.5 Próximos Passos</h4>
+                    <p>Melhorias que você pode implementar:</p>
+                    <ul>
+                        <li>Sistema de autenticação de usuários</li>
+                        <li>Notificações por email</li>
+                        <li>Integração com APIs de combustível</li>
+                        <li>Dashboard com gráficos avançados</li>
+                        <li>App mobile com React Native</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="success" style="margin: 40px 0; padding: 30px; text-align: center; font-size: 1.2em;">
+            <h2>🎉 Parabéns!</h2>
+            <p>Seu Sistema de Gestão de Abastecimento está 100% funcional!</p>
+            <p><strong>GitHub:</strong> Código versionado e seguro</p>
+            <p><strong>Firebase:</strong> Banco de dados em nuvem</p>
+            <p><strong>Netlify:</strong> Site online e acessível</p>
+        </div>
+
+        <div class="info" style="margin: 40px 0; padding: 20px;">
+            <h3>📞 Suporte</h3>
+            <p>Se você encontrar algum problema durante a configuração:</p>
+            <ul>
+                <li>Verifique se seguiu todos os passos corretamente</li>
+                <li>Consulte a documentação oficial de cada ferramenta</li>
+                <li>Verifique os logs de erro no console do navegador</li>
+                <li>Entre em contato com o desenvolvedor se necessário</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <h3>🚛 Sistema de Gestão de Abastecimento</h3>
+            <p>Desenvolvido por <strong>Carlos Freitas</strong></p>
+            <p>© 2025 - Todos os direitos reservados</p>
+            <p>Tecnologias: React + TypeScript + Firebase + Tailwind CSS</p>
+        </div>
+    </div>
+</body>
+</html>
